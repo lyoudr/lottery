@@ -1,4 +1,7 @@
 requests==2.32.3
 PyMySQL==1.1.1
 Django==5.1.5
-beautifulsoup4==4.13.1
+djangorestframework==3.15.2
+beautifulsoup4==4.13.1gunicorn==23.0.0
+gunicorn==23.0.0
+drf-yasg==1.21.8
