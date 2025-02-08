@@ -21,3 +21,4 @@ images:
   - 'asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:v1'
 options:
   logging: CLOUD_LOGGING_ONLY
+# note
