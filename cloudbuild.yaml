@@ -1,11 +1,11 @@
 steps:
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:v1', '.']
+    args: ['build', '-t', 'asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:latest', '.']
   
   # Step 2: Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:v1']
+    args: ['push', 'asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:latest']
 
   # Step 3: Authicate kubectl with GKE
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -22,12 +22,12 @@ steps:
       - 'set'
       - 'image'
       - 'deployment/lottery'
-      - 'lottery=asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:v1'
+      - 'lottery=asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:latest'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=ann-cluster'
 images:
-  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:v1'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:latest'
 options:
   logging: CLOUD_LOGGING_ONLY
 # note
