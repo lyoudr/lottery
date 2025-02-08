@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-master
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: mysql
+      role: master
+  template:
+    metadata:
+      labels:
+        app: mysql
+        role: master
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "annpasswd"
+            - name: MYSQL_DATABASE
+              value: "lottery"
+            - name: MYSQL_USER
+              value: "ann"
+            - name: MYSQL_PASSWORD
+              value: "annpasswd"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            # volumeMount is used to specify where a volume is mounted inside a container.
+            # It tells Kubernetes to map a specific volume to a particular directory inside the container.
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+      volumes: 
+      # A "volume" is a storage resource that allows data to persist beyond the lifecycle of a pod.
+      # Volumes are defined at the pod level.
+        - name: mysql-data
+          emptyDir: {}    
+            

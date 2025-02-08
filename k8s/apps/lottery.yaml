@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lottery
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lottery
+  template:
+    metadata:
+      labels:
+        app: lottery
+    spec:
+      containers:
+        - name: lottery
+          image: asia-east1-docker.pkg.dev/ann-project-390401/ann-repo/lottery:latest
+          ports:
+          - containerPort: 8000
+          resources:
+            requests:
+              memory: "512Mi" 
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"

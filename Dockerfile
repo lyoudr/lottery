@@ -1,6 +1,12 @@
 # Use an official Python runtime as a base image
 FROM python:3.11
 
+
+# Set environment variables to prevent Python from writing pyc files and to buffer stdout and stderr
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+
 # Set the working directory
 WORKDIR /app 
 
@@ -10,8 +16,8 @@ COPY . .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Collect static files
-RUN python manage.py collecstatic --noinput
+# Change permission for entrypoint.sh to make it executable
+RUN chmod +x /app/entrypoint.sh
 
 # Start the Django app 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", 'lottery.wsgi']
+CMD ["./entrypoint.sh"]
