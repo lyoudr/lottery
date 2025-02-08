@@ -7,7 +7,16 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'asia-east1-docker.pkg.dev/$PROJECT_ID/ann-repo/lottery:v1']
 
-  # Step 3: Deploy to GKE
+  # Step 3: Authicate kubectl with GKE
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'container'
+      - 'clusters'
+      - 'get-credentials'
+      - 'ann-cluster'
+      - '--region=us-central1'
+
+  # Step 4: Deploy to GKE
   - name: 'gcr.io/cloud-builders/kubectl'
     args:
       - 'set'
