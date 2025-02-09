@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3-management
+          ports:
+            - containerPort: 5672  # RabbitMQ broker port
+            - containerPort: 15672 # RabbitMQ management console port
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "guest"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "guest"
+          resources:
+            requests:
+              memory: "256Mi"  # Minimum memory required
+              cpu: "250m"      # Minimum CPU required
+            limits:
+              memory: "512Mi"  # Maximum memory allowed
+              cpu: "500m"      # Maximum CPU allowed
