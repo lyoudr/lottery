@@ -24,3 +24,8 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "1"
+          env:
+            - name: GCP_PROJECT_ID
+              value: "ann-project-ann-project-390401"
+            - name: ENV
+              value: "develop"

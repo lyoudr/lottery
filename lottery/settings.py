@@ -11,7 +11,24 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+from google.cloud import secretmanager
+
 import os
+
+
+# Env
+if os.getenv('ENV') == 'local':
+    load_dotenv()
+
+def get_secret(secret_name):
+    """Retrieve secret from Google Secret Manager."""
+    client = secretmanager.SecretManagerServiceClient()
+    project_id = os.getenv('GCP_PROJECT_ID')
+    secret_path =f"projects/{project_id}/secrets/{secret_name}/versions/latest"
+    response = client.access_secret_version(request={"name": secret_path})
+    return response.payload.data.decode("UTF-8")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,7 +60,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'analysis',
-    'custom_auth',
+    'custom_auth'
 ]
 
 MIDDLEWARE = [
@@ -80,14 +97,20 @@ WSGI_APPLICATION = 'lottery.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DB_NAME = get_secret('DB_NAME') if os.getenv('ENV') != 'local' else os.getenv('DB_NAME')
+DB_USER = get_secret('DB_USER') if os.getenv('ENV') != 'local' else os.getenv('DB_USER')
+DB_PASSWORD = get_secret('DB_PASSWORD') if os.getenv('ENV') != 'local' else os.getenv('DB_PASSWORD')
+DB_HOST = get_secret('DB_HOST') if os.getenv('ENV') != 'local' else os.getenv('DB_HOST')
+DB_PORT = get_secret('DB_PORT') if os.getenv('ENV') != 'local' else os.getenv('DB_PORT')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lottery',
-        'USER': 'ann',
-        'PASSWORD': 'annpasswd',
-        'HOST': 'mysql-service', # "localhost" for local,
-        'PORT': 3306
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST, 
+        'PORT': DB_PORT
     }
 }
 
@@ -143,3 +166,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication', # Allows authentication via username and password in the "Authorization" header
     ]
 }
+
+
+

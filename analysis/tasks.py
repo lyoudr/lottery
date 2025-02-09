@@ -3,8 +3,10 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 from analysis.models import DigitalStatistics
+from lottery.celery import app
 
 
+@app.task(name="get_lottery_data", queue="lonquery_pq", acks_late=True)
 def get_lottery_data():
     # Define the URL
     current_year = datetime.now().year
@@ -12,7 +14,9 @@ def get_lottery_data():
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
-
+    # Update all 'times' to 0 before starting
+    DigitalStatistics.objects.update(times = 0)
+    
     for year in range(2004, current_year + 1):
         url = f"https://www.cpzhan.com/lotto649/all-results.php?year={year}"
         # Send a GET requst to the website
