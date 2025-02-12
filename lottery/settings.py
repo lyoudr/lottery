@@ -24,7 +24,8 @@ if os.getenv('ENV') == 'local':
 def get_secret(secret_name):
     """Retrieve secret from Google Secret Manager."""
     client = secretmanager.SecretManagerServiceClient()
-    project_id = os.getenv('GCP_PROJECT_ID')
+    # project_id = os.getenv('GCP_PROJECT_ID')
+    project_id = "ann-project-ann-project-390401"
     secret_path =f"projects/{project_id}/secrets/{secret_name}/versions/latest"
     response = client.access_secret_version(request={"name": secret_path})
     return response.payload.data.decode("UTF-8")
