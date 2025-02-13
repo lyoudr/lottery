@@ -12,6 +12,7 @@ spec:
       labels:
         app: celery-worker
     spec:
+      serviceAccountName: ann-service
       imagePullSecrets:
         - name: gcr-secret
       containers:
