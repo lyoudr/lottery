@@ -13,8 +13,6 @@ spec:
         app: celery-beat
     spec:
       serviceAccountName: ann-service
-      imagePullSecrets:
-        - name: gcr-secret
       containers:
         - name: celery-beat
           image: asia-east1-docker.pkg.dev/ann-project-390401/ann-repo/lottery:latest
