@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: lottery
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: lottery
@@ -15,7 +15,7 @@ spec:
       serviceAccountName: ann-service
       containers:
         - name: lottery
-          image: asia-east1-docker.pkg.dev/ann-project-390401/ann-repo/lottery:latest
+          image: asia-east1-docker.pkg.dev/ann-project-390401/ann-repo/lottery:v1
           ports:
           - containerPort: 8000
           volumeMounts:
@@ -23,11 +23,11 @@ spec:
               mountPath: /app/staticfiles
           resources:
             requests:
-              memory: "512Mi" 
-              cpu: "500m"
+              memory: "128Mi" 
+              cpu: "100m"
             limits:
-              memory: "1Gi"
-              cpu: "1"
+              memory: "256Mi"
+              cpu: "250m"
           env:
             - name: GCP_PROJECT_ID
               value: "ann-project-ann-project-390401"

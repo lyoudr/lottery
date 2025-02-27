@@ -37,11 +37,11 @@ spec:
               mountPath: /var/lib/mysql
           resources:
             requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
               memory: "256Mi"
               cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
       volumes: 
       # A "volume" is a storage resource that allows data to persist beyond the lifecycle of a pod.
       # Volumes are defined at the pod level.

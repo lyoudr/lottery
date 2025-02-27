@@ -27,11 +27,11 @@ spec:
               value: "guest"
           resources:
             requests:
-              memory: "256Mi"  # Minimum memory required
-              cpu: "250m"      # Minimum CPU required
+              memory: "128Mi"  # Minimum memory required
+              cpu: "100m"      # Minimum CPU required
             limits:
-              memory: "512Mi"  # Maximum memory allowed
-              cpu: "500m"      # Maximum CPU allowed
+              memory: "256Mi"  # Maximum memory allowed
+              cpu: "250m"      # Maximum CPU allowed
 ---
 apiVersion: v1
 kind: Service

@@ -15,15 +15,15 @@ spec:
       serviceAccountName: ann-service
       containers:
         - name: celery-worker
-          image: asia-east1-docker.pkg.dev/ann-project-390401/ann-repo/lottery:latest
+          image: asia-east1-docker.pkg.dev/ann-project-390401/ann-repo/lottery:v1
           command: ["celery", "-A", "lottery", "worker", "-Q", "lonquery_pq", "--loglevel=info"]
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "250m"
+              memory: "128Mi"  # Minimum memory required
+              cpu: "100m"      # Minimum CPU required
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: "256Mi"  # Maximum memory allowed
+              cpu: "250m"      # Maximum CPU allowed
           env:
             - name: RABBITMQ_HOST
               value: "rabbitmq"  # Replace with RabbitMQ service name

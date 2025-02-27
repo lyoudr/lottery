@@ -19,11 +19,11 @@ spec:
           command: ["celery", "-A", "lottery", "beat", "--loglevel=info"]
           resources:
             requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
               memory: "256Mi"
               cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
           env:
             - name: RABBITMQ_HOST
               value: "rabbitmq"  # Replace with RabbitMQ service name

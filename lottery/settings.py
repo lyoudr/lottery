@@ -16,19 +16,26 @@ from google.cloud import secretmanager
 
 import os
 
-
-# Env
-if os.getenv('ENV') == 'local':
-    load_dotenv()
-
 def get_secret(secret_name):
     """Retrieve secret from Google Secret Manager."""
     client = secretmanager.SecretManagerServiceClient()
-    # project_id = os.getenv('GCP_PROJECT_ID')
-    project_id = "ann-project-ann-project-390401"
+    project_id = os.getenv('GCP_PROJECT_ID')
     secret_path =f"projects/{project_id}/secrets/{secret_name}/versions/latest"
     response = client.access_secret_version(request={"name": secret_path})
     return response.payload.data.decode("UTF-8")
+
+# Env
+print("ENV is ->", os.getenv('ENV'))
+if os.getenv('ENV') == 'local':
+    load_dotenv()
+
+DB_NAME = get_secret('DB_NAME') if os.getenv('ENV') != 'local' else os.getenv('DB_NAME')
+DB_USER = get_secret('DB_USER') if os.getenv('ENV') != 'local' else os.getenv('DB_USER')
+DB_PASSWORD = get_secret('DB_PASSWORD') if os.getenv('ENV') != 'local' else os.getenv('DB_PASSWORD')
+DB_HOST = get_secret('DB_HOST') if os.getenv('ENV') != 'local' else os.getenv('DB_HOST')
+DB_PORT = get_secret('DB_PORT') if os.getenv('ENV') != 'local' else os.getenv('DB_PORT')
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -58,9 +65,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third-party apps
-    'drf_yasg',
+    # 'drf_yasg',
     'rest_framework',
     'analysis',
+    'stock',
     'custom_auth'
 ]
 
@@ -98,11 +106,6 @@ WSGI_APPLICATION = 'lottery.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DB_NAME = get_secret('DB_NAME') if os.getenv('ENV') != 'local' else os.getenv('DB_NAME')
-DB_USER = get_secret('DB_USER') if os.getenv('ENV') != 'local' else os.getenv('DB_USER')
-DB_PASSWORD = get_secret('DB_PASSWORD') if os.getenv('ENV') != 'local' else os.getenv('DB_PASSWORD')
-DB_HOST = get_secret('DB_HOST') if os.getenv('ENV') != 'local' else os.getenv('DB_HOST')
-DB_PORT = get_secret('DB_PORT') if os.getenv('ENV') != 'local' else os.getenv('DB_PORT')
 
 DATABASES = {
     'default': {
@@ -111,7 +114,7 @@ DATABASES = {
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
         'HOST': DB_HOST, 
-        'PORT': DB_PORT
+        'PORT': 3306
     }
 }
 
