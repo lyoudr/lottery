@@ -4,13 +4,13 @@ Django==5.1.5
 djangorestframework==3.15.2
 beautifulsoup4==4.13.1
 gunicorn==20.1.0
-drf-yasg==1.21.
+drf-yasg==1.21.9
 celery==5.4.0
 python-dotenv==1.0.1
 twstock==1.4.0
 lxml==5.3.1
 pandas==2.2.3
-
+confluent-kafka==2.8.2
 # Google
 google-api-core==2.24.1
 google-auth==2.38.0

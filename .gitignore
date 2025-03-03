@@ -1,7 +1,8 @@
 *.ipynb
-venv/
+**_venv/
 **/__pycache__/
 staticfiles/
 *.json
 *.env
 *pyc
+*.csv
